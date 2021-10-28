@@ -42,4 +42,6 @@ select * from pgbouncer.totals;
 select * from pgbouncer.users;
 select * from pgbouncer.version;
 ```
+Show count of database/user pairs that are waiting for a db connection
+* select count(*) from pgbouncer.pools where cl_waiting > 0;
 
