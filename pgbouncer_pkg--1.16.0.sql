@@ -490,3 +490,4 @@ COMMENT ON COLUMN pgbouncer.version.version IS $$Version number as text$$;
 
 -- did not include show commands, only show queries
 
+
