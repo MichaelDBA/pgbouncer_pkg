@@ -54,5 +54,14 @@ Show free clients and servers that are close to zero.
 select count(*) free_clients from pgbouncer.lists where list = 'free_clients' and items < 5;
 select count(*) free_servers from pgbouncer.lists where list = 'free_servers' and items < 5;
 
-select * from pgbouncer.lists where list in ('free_clients', 'free_servers') and items < 5;
+select name, size, free, round(round((free/size::decimal)::decimal,2) * 100) percent_free from pgbouncer.mem;
+     name     | size | free | percent_free
+--------------+------+------+--------------
+ user_cache   | 1264 |   47 |            4
+ db_cache     |  208 |   77 |           37
+ pool_cache   |  480 |   49 |           10
+ server_cache |  568 |   50 |            9
+ client_cache |  568 |   49 |            9
+ iobuf_cache  | 4112 |   49 |            1
+
 
