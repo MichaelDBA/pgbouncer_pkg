@@ -47,7 +47,12 @@ Show count of database/user connections that have sent queries but have not yet 
 * select database, user, cl_waiting from pgbouncer.pools where cl_waiting > 0;
 
 Show databases whose current connections are within 5 of the max connections
-* select count(*) from pgbouncer.databases where max_connections - current_connections < 5;
-* select database, max_connections, current_connections from pgbouncer.databases where max_connections - current_connections < 5;
+* select count(*) from pgbouncer.databases where max_connections - current_connections < 6;
+* select database, max_connections, current_connections from pgbouncer.databases where max_connections - current_connections < 6;
 
+Show free clients and servers that are close to zero.
+select count(*) free_clients from pgbouncer.lists where list = 'free_clients' and items < 5;
+select count(*) free_servers from pgbouncer.lists where list = 'free_servers' and items < 5;
+
+select * from pgbouncer.lists where list in ('free_clients', 'free_servers') and items < 5;
 
