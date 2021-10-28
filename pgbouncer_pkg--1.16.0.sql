@@ -2,7 +2,7 @@
  * Author: Michael Vitale <michaeldba@sqlexec.com>
  * Created at: 2021-10-28
  */
- pgbouncer_wrapper--1.9.0.sql:
+ 
 -- Create server from normal pg cluster to point to pgbouncer database
 CREATE SERVER pgbouncer FOREIGN DATA WRAPPER dblink_fdw OPTIONS (host 'localhost', port '6432', dbname 'pgbouncer');
 
