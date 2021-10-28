@@ -13,7 +13,7 @@ A wrapper around the pgbouncer show commands
 * pgbouncer PG role is already created.
 
 # Instructions
-Download 2 files to the PostgreSQL cluster's extension directory:
+Download 2 files to the PostgreSQL cluster's extension directory. NOTE: the owner of these files must be **root**.
 * pgbouncer_pkg.control
 * pgbouncer_pkg--1.16.0.sql
 
