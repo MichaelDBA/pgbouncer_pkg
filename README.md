@@ -21,6 +21,11 @@ Run the **pg_config** command for the cluster to  find out the **SHAREDIR** loca
 
 * /usr/pgsql-9.6/share/extension
 
+The extension is available to see with the following SQL command after you plop those 2 files in the extension directory.
+```
+select * from pg_available_extensions where name = 'pgbouncer_pkg';
+```
+
 # Examples
 ```
 select * from pgbouncer.active_sockets;
