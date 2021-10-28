@@ -10,6 +10,7 @@ A wrapper around the pgbouncer show commands
 # Assumptions
 * It is based on pgbouncer version, 1.16.
 * Only works with onprem PG clusters.
+* pgbouncer PG role is already created.
 
 # Instructions
 Download 2 files to the PostgreSQL cluster's extension directory:
