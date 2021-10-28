@@ -24,6 +24,9 @@ Run the **pg_config** command for the cluster to  find out the **SHAREDIR** loca
 The extension is available to see with the following SQL command after you plop those 2 files in the extension directory.
 ```
 select * from pg_available_extensions where name = 'pgbouncer_pkg';
+     name      | default_version | installed_version |                          comment
+---------------+-----------------+-------------------+-----------------------------------------------------------
+ pgbouncer_pkg | 1.16.0          | 1.16.0            | Wrap pgbouncer output as a dblink from pgbouncer database
 
 -- create the extension
 CREATE EXTENSION pgbouncer_pkg CASCADE;
