@@ -42,6 +42,8 @@ select * from pgbouncer.totals;
 select * from pgbouncer.users;
 select * from pgbouncer.version;
 ```
+Here are some other queries to detect serious conditions within PGBouncer:
+
 Show count of database/user connections that have sent queries but have not yet got a server connection.
 * select count(*) from pgbouncer.pools where cl_waiting > 0;
 * select database, user, cl_waiting from pgbouncer.pools where cl_waiting > 0;
@@ -51,17 +53,8 @@ Show databases whose current connections are within 5 of the max connections
 * select database, max_connections, current_connections from pgbouncer.databases where max_connections - current_connections < 6;
 
 Show free clients and servers that are close to zero.
-select count(*) free_clients from pgbouncer.lists where list = 'free_clients' and items < 5;
-select count(*) free_servers from pgbouncer.lists where list = 'free_servers' and items < 5;
+* select count(*) free_clients from pgbouncer.lists where list = 'free_clients' and items < 5;
+* select count(*) free_servers from pgbouncer.lists where list = 'free_servers' and items < 5;
 
-select name, size, free, round(round((free/size::decimal)::decimal,2) * 100) percent_free from pgbouncer.mem;
-     name     | size | free | percent_free
---------------+------+------+--------------
- user_cache   | 1264 |   47 |            4
- db_cache     |  208 |   77 |           37
- pool_cache   |  480 |   49 |           10
- server_cache |  568 |   50 |            9
- client_cache |  568 |   49 |            9
- iobuf_cache  | 4112 |   49 |            1
-
-
+Show caches that are low in free memory.
+* select name, size, free, round(round((free/size::decimal)::decimal,2) * 100) percent_free from pgbouncer.mem where  round(round((free/size::decimal)::decimal,2) * 100) < 10;
