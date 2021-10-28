@@ -42,6 +42,12 @@ select * from pgbouncer.totals;
 select * from pgbouncer.users;
 select * from pgbouncer.version;
 ```
-Show count of database/user pairs that are waiting for a db connection
+Show count of database/user connections that have sent queries but have not yet got a server connection.
 * select count(*) from pgbouncer.pools where cl_waiting > 0;
+* select database, user, cl_waiting from pgbouncer.pools where cl_waiting > 0;
+
+Show databases whose current connections are within 5 of the max connections
+* select count(*) from pgbouncer.databases where max_connections - current_connections < 5;
+* select database, max_connections, current_connections from pgbouncer.databases where max_connections - current_connections < 5;
+
 
