@@ -15,6 +15,8 @@ A wrapper around the pgbouncer show commands
 Download 2 files to the PostgreSQL cluster's extension directory:
 * pgbouncer_pkg.control
 * pgbouncer_pkg--1.16.0.sql
+
 <br/>
-Run the pg_config command for the cluster to  find out the **SHAREDIR** location.  Then copy these to files to **extension** directory under it.  It might look something like this:<br/>
+Run the pg_config command for the cluster to  find out the **SHAREDIR** location.  Then copy these to files to **extension** directory under it.  It might look something like this:
+<br/>
 * /usr/pgsql-9.6/share/extension
