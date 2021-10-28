@@ -42,7 +42,7 @@ select * from pgbouncer.totals;
 select * from pgbouncer.users;
 select * from pgbouncer.version;
 ```
-Here are some other queries to detect serious conditions within PGBouncer:
+## Here are some other queries to detect serious conditions within PGBouncer:
 
 Show count of database/user connections that have sent queries but have not yet got a server connection.
 * select count(*) from pgbouncer.pools where cl_waiting > 0;
