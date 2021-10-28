@@ -23,7 +23,23 @@ Run the **pg_config** command for the cluster to  find out the **SHAREDIR** loca
 
 # Examples
 ```
-select * from pgbouncer.servers;
+select * from pgbouncer.active_sockets;
+select * from pgbouncer.clients;
+select * from pgbouncer.config;
+select * from pgbouncer.databases;
+select * from pgbouncer.dns_hosts;
+select * from pgbouncer.dns_zones;
+select * from pgbouncer.fds;
+select * from pgbouncer.lists;
+select * from pgbouncer.mem;
 select * from pgbouncer.pools;
+select * from pgbouncer.servers;
+select * from pgbouncer.sockets;
+select * from pgbouncer.stats;
+select * from pgbouncer.stats_averages;
+select * from pgbouncer.stats_totals;
+select * from pgbouncer.totals;
+select * from pgbouncer.users;
+select * from pgbouncer.version;
 ```
 
