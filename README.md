@@ -21,3 +21,9 @@ Run the **pg_config** command for the cluster to  find out the **SHAREDIR** loca
 
 * /usr/pgsql-9.6/share/extension
 
+# Examples
+```
+select * from pgbouncer.servers;
+select * from pgbouncer.pools;
+```
+
