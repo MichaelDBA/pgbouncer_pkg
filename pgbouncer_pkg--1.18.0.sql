@@ -10,7 +10,8 @@
 -- Create server from normal pg cluster to point to pgbouncer database
 CREATE SERVER pgbouncer FOREIGN DATA WRAPPER dblink_fdw OPTIONS (host 'localhost', port '6432', dbname 'pgbouncer');
 
--- Create associated user mapping
+-- Create associated user mapping (for non-superusers including rds_superuser you must provide password
+-- CREATE USER MAPPING FOR PUBLIC SERVER pgbouncer OPTIONS (user 'pgbouncer', password 'mypassword');
 CREATE USER MAPPING FOR PUBLIC SERVER pgbouncer OPTIONS (user 'pgbouncer');
 
 -- Create schema to segregate this extension
@@ -19,7 +20,7 @@ CREATE SCHEMA pgbouncer;
 -- Create the show APIs
 
 /* SHOW ACTIVE_SOCKETS */
-CREATE VIEW pgbouncer.active_sockets AS
+CREATE OR REPLACE VIEW pgbouncer.active_sockets AS
     SELECT * FROM dblink('pgbouncer', 'show active_sockets') AS _(
         type text,
         "user" text,
@@ -155,7 +156,7 @@ COMMENT ON COLUMN pgbouncer.databases."database" IS $$Actual database name pgbou
 COMMENT ON COLUMN pgbouncer.databases."force_user" IS $$When user is part of the connection string, the connection between pgbouncer and PostgreSQL is forced to the given user, whatever the client user.$$;
 COMMENT ON COLUMN pgbouncer.databases."pool_size" IS $$Maximum number of server connections.$$;
 COMMENT ON COLUMN pgbouncer.databases."min_pool_size" IS $$Minimum number of server connections.$$;
-COMMENT ON COLUMN pgbouncer.databases."pool_mode" IS $$The database’s override pool_mode, or NULL if the default will be used instead.$$;
+COMMENT ON COLUMN pgbouncer.databases."pool_mode" IS $$The databaseÂ’s override pool_mode, or NULL if the default will be used instead.$$;
 COMMENT ON COLUMN pgbouncer.databases."max_connections" IS $$Maximum number of allowed connections for this database, as set by max_db_connections, either globally or per database.$$;
 COMMENT ON COLUMN pgbouncer.databases."current_connections" IS $$Current number of connections for this database.$$;
 COMMENT ON COLUMN pgbouncer.databases."paused" IS $$1 if this database is currently paused, else 0.$$;
@@ -213,7 +214,7 @@ CREATE VIEW pgbouncer.fds AS
     
 COMMENT ON VIEW pgbouncer.fds IS $$Internal command - shows list of file descriptors in use with internal state attached to them.
 
-When the connected user has the user name “pgbouncer”, connects through the
+When the connected user has the user name Â“pgbouncerÂ”, connects through the
 Unix socket and has same the UID as the running process, the actual FDs are
 passed over the connection. This mechanism is used to do an online restart.
 Note: This does not work on Windows.
@@ -357,7 +358,7 @@ COMMENT ON COLUMN pgbouncer.servers.wait_us IS $$Microsecond part of the current
 COMMENT ON COLUMN pgbouncer.servers.close_needed IS $$1 if the connection will be closed as soon as possible, because a configuration file reload or DNS update changed the connection information or RECONNECT was issued.$$;
 COMMENT ON COLUMN pgbouncer.servers.ptr IS $$Address of internal object for this connection. Used as unique ID.$$;
 COMMENT ON COLUMN pgbouncer.servers.link IS $$Address of client connection the server is paired with.$$;
-COMMENT ON COLUMN pgbouncer.servers.remote_pid IS $$PID of backend server process. In case connection is made over Unix socket and OS supports getting process ID info, its OS PID. Otherwise it’s extracted from cancel packet server sent, which should be PID in case server is PostgreSQL, but it’s a random number in case server it is another PgBouncer.$$;
+COMMENT ON COLUMN pgbouncer.servers.remote_pid IS $$PID of backend server process. In case connection is made over Unix socket and OS supports getting process ID info, its OS PID. Otherwise itÂ’s extracted from cancel packet server sent, which should be PID in case server is PostgreSQL, but itÂ’s a random number in case server it is another PgBouncer.$$;
 COMMENT ON COLUMN pgbouncer.servers.tls IS $$A string with TLS connection information, or empty if not using TLS.$$;
 COMMENT ON COLUMN pgbouncer.servers.application_name IS $$A string containing the application_name set on the linked client connection, or empty if this is not set, or if there is no linked connection.$$;
 
@@ -506,7 +507,7 @@ CREATE VIEW pgbouncer.users AS
         pool_mode text
     );
 COMMENT ON COLUMN pgbouncer.users.name IS $$The user name$$;
-COMMENT ON COLUMN pgbouncer.users.pool_mode IS $$The user’s override pool_mode, or NULL if the default will be used instead.$$;
+COMMENT ON COLUMN pgbouncer.users.pool_mode IS $$The userÂ’s override pool_mode, or NULL if the default will be used instead.$$;
 
 /* SHOW VERSION */
 CREATE VIEW pgbouncer.version AS
