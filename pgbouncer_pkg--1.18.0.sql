@@ -76,7 +76,7 @@ COMMENT ON COLUMN pgbouncer.active_sockets."pkt_avail" IS $$See socket_row() in 
 COMMENT ON COLUMN pgbouncer.active_sockets."send_avail" IS $$See socket_row() in admin.c$$;
 
 /* SHOW CLIENTS */
-CREATE VIEW pgbouncer.clients AS
+CREATE OR REPLACE VIEW pgbouncer.clients AS
     SELECT * FROM dblink('pgbouncer', 'show clients') AS _(
         type text,
         "user" text,
@@ -119,7 +119,7 @@ COMMENT ON COLUMN pgbouncer.clients."tls" IS $$A string with TLS connection info
 COMMENT ON COLUMN pgbouncer.clients."application_name" IS $$A string containing the application_name set on the linked client connection, or empty if this is not set, or if there is no linked connection.$$;
 
 /* SHOW CONFIG */
-CREATE VIEW pgbouncer.config AS
+CREATE OR REPLACE VIEW pgbouncer.config AS
     SELECT * FROM dblink('pgbouncer', 'show config') AS _(
         key text,
         value text,
@@ -132,7 +132,7 @@ COMMENT ON COLUMN pgbouncer.config."default" IS $$Default value$$;
 COMMENT ON COLUMN pgbouncer.config."changeable" IS $$Either yes or no, shows if the variable can be changed while running. If no, the variable can be changed only at boot time. Use SET to change a variable at run time.$$;
 
 /* SHOW DATABASES */
-CREATE VIEW pgbouncer.databases AS
+CREATE OR REPLACE VIEW pgbouncer.databases AS
     SELECT * FROM dblink('pgbouncer', 'show databases') AS _(
         name text,
         host text,
@@ -163,7 +163,7 @@ COMMENT ON COLUMN pgbouncer.databases."paused" IS $$1 if this database is curren
 COMMENT ON COLUMN pgbouncer.databases."disabled" IS $$1 if this database is currently disabled, else 0.$$;
 
 /* SHOW DNS_HOSTS */
-CREATE VIEW pgbouncer.dns_hosts AS
+CREATE OR REPLACE VIEW pgbouncer.dns_hosts AS
     SELECT * FROM dblink('pgbouncer', 'show dns_hosts') AS _(
         hostname text,
         ttl bigint,
@@ -174,7 +174,7 @@ COMMENT ON COLUMN pgbouncer.dns_hosts."ttl" IS $$How many seconds until next loo
 COMMENT ON COLUMN pgbouncer.dns_hosts."addrs" IS $$Comma separated list of addresses.$$;
 
 /* SHOW DNS_ZONES */
-CREATE VIEW pgbouncer.dns_zones AS
+CREATE OR REPLACE VIEW pgbouncer.dns_zones AS
     SELECT * FROM dblink('pgbouncer', 'show dns_zones') AS _(
         zonename text,
         serial bigint,
@@ -185,7 +185,7 @@ COMMENT ON COLUMN pgbouncer.dns_zones."serial" IS $$Current serial.$$;
 COMMENT ON COLUMN pgbouncer.dns_zones."count" IS $$Host names belonging to this zone.$$;
 
 /* SHOW FDS */
-CREATE VIEW pgbouncer.fds AS
+CREATE OR REPLACE VIEW pgbouncer.fds AS
     SELECT * FROM dblink('pgbouncer', 'show fds') AS _(
         fd integer,
         task text,
@@ -236,7 +236,7 @@ COMMENT ON COLUMN pgbouncer.fds."link" IS $$fd for corresponding server/client. 
 /* XXX Not implemented as this comes in as a NOTICE, not as a rowset. */
 
 /* SHOW LISTS */
-CREATE VIEW pgbouncer.lists AS
+CREATE OR REPLACE VIEW pgbouncer.lists AS
     SELECT * FROM dblink('pgbouncer', 'show lists') AS _(
         list text,
         items integer
@@ -270,7 +270,7 @@ dns_pending
 $$;
 
 /* SHOW MEM */
-CREATE VIEW pgbouncer.mem AS
+CREATE OR REPLACE VIEW pgbouncer.mem AS
     SELECT * FROM dblink('pgbouncer', 'show mem') AS _(
         name text,
         size integer,
@@ -281,7 +281,7 @@ CREATE VIEW pgbouncer.mem AS
 COMMENT ON VIEW pgbouncer.mem IS $$Shows low-level information about the current sizes of various internal memory allocations. The information presented is subject to change.$$;
 
 /* SHOW POOLS */
-CREATE VIEW pgbouncer.pools AS
+CREATE OR REPLACE VIEW pgbouncer.pools AS
     SELECT * FROM dblink('pgbouncer', 'show pools') AS _(
         database text,
         "user" text,
@@ -321,7 +321,7 @@ COMMENT ON COLUMN pgbouncer.pools."maxwait_us" IS $$Microsecond part of the maxi
 COMMENT ON COLUMN pgbouncer.pools."pool_mode" IS $$The pooling mode in use.$$;
 
 /* SHOW SERVERS */
-CREATE VIEW pgbouncer.servers AS
+CREATE OR REPLACE VIEW pgbouncer.servers AS
     SELECT * FROM dblink('pgbouncer', 'show servers') AS _(
         type text,
         "user" text,
@@ -363,7 +363,7 @@ COMMENT ON COLUMN pgbouncer.servers.tls IS $$A string with TLS connection inform
 COMMENT ON COLUMN pgbouncer.servers.application_name IS $$A string containing the application_name set on the linked client connection, or empty if this is not set, or if there is no linked connection.$$;
 
 /* SHOW SOCKETS */
-CREATE VIEW pgbouncer.sockets AS
+CREATE OR REPLACE VIEW pgbouncer.sockets AS
     SELECT * FROM dblink('pgbouncer', 'show sockets') AS _(
         type text,
         "user" text,
@@ -416,7 +416,7 @@ COMMENT ON COLUMN pgbouncer.sockets."pkt_avail" IS $$See socket_row() in admin.c
 COMMENT ON COLUMN pgbouncer.sockets."send_avail" IS $$See socket_row() in admin.c$$;
 
 /* SHOW STATS */
-CREATE VIEW pgbouncer.stats AS
+CREATE OR REPLACE VIEW pgbouncer.stats AS
     SELECT * FROM dblink('pgbouncer', 'show stats') AS _(
         database text,
         total_xact_count bigint,
@@ -451,7 +451,7 @@ COMMENT ON COLUMN pgbouncer.stats.avg_query_time IS $$Average query duration in 
 COMMENT ON COLUMN pgbouncer.stats.avg_wait_time IS $$Time spent by clients waiting for a server in microseconds (average per second).$$;
 
 /* SHOW STATS_AVERAGES */
-CREATE VIEW pgbouncer.stats_averages AS
+CREATE OR REPLACE VIEW pgbouncer.stats_averages AS
     SELECT * FROM dblink('pgbouncer', 'show stats_averages') AS _(
         database text,
         xact_count bigint,
@@ -473,7 +473,7 @@ COMMENT ON COLUMN pgbouncer.stats_averages.query_time IS $$Average query duratio
 COMMENT ON COLUMN pgbouncer.stats_averages.wait_time IS $$Time spent by clients waiting for a server in microseconds (average per second).$$;
 
 /* SHOW STATS_TOTALS */
-CREATE VIEW pgbouncer.stats_totals AS
+CREATE OR REPLACE VIEW pgbouncer.stats_totals AS
     SELECT * FROM dblink('pgbouncer', 'show stats_totals') AS _(
         database text,
         xact_count bigint,
@@ -494,14 +494,14 @@ COMMENT ON COLUMN pgbouncer.stats_totals.query_time IS $$Total number of microse
 COMMENT ON COLUMN pgbouncer.stats_totals.wait_time IS $$Time spent by clients waiting for a server in microseconds.$$;
 
 /* SHOW TOTALS */
-CREATE VIEW pgbouncer.totals AS
+CREATE OR REPLACE VIEW pgbouncer.totals AS
     SELECT * FROM dblink('pgbouncer', 'show totals') AS _(
         name text,
         value bigint
     );
 
 /* SHOW USERS */
-CREATE VIEW pgbouncer.users AS
+CREATE OR REPLACE VIEW pgbouncer.users AS
     SELECT * FROM dblink('pgbouncer', 'show users') AS _(
         name text,
         pool_mode text
@@ -510,7 +510,7 @@ COMMENT ON COLUMN pgbouncer.users.name IS $$The user name$$;
 COMMENT ON COLUMN pgbouncer.users.pool_mode IS $$The users override pool_mode, or NULL if the default will be used instead.$$;
 
 /* SHOW VERSION */
-CREATE VIEW pgbouncer.version AS
+CREATE OR REPLACE VIEW pgbouncer.version AS
     SELECT * FROM dblink('pgbouncer', 'show version') AS _(
         version text
     );
