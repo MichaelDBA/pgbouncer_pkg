@@ -6,16 +6,20 @@
  *   application_name (ACTIVE_SOCKETS)
  
  */
- 
+
+CREATE EXTENSION IF NOT EXISTS dblink;
+
 -- Create server from normal pg cluster to point to pgbouncer database
-CREATE SERVER pgbouncer FOREIGN DATA WRAPPER dblink_fdw OPTIONS (host 'localhost', port '6432', dbname 'pgbouncer');
+DROP SERVER IF EXISTS pgbouncer CASCADE;
+CREATE SERVER IF NOT EXISTS pgbouncer FOREIGN DATA WRAPPER dblink_fdw OPTIONS (host '172.20.184.96', port '6432', dbname 'pgbouncer');
 
 -- Create associated user mapping (for non-superusers including rds_superuser you must provide password
--- CREATE USER MAPPING FOR PUBLIC SERVER pgbouncer OPTIONS (user 'pgbouncer', password 'mypassword');
-CREATE USER MAPPING FOR PUBLIC SERVER pgbouncer OPTIONS (user 'pgbouncer');
+DROP USER MAPPING IF EXISTS FOR pgbouncer SERVER pgbouncer;
+-- CREATE USER MAPPING FOR PUBLIC SERVER pgbouncer OPTIONS (user 'pgbouncer');
+CREATE USER MAPPING FOR PUBLIC SERVER pgbouncer OPTIONS (user 'pgbouncer', password 'mypassword');
 
 -- Create schema to segregate this extension
-CREATE SCHEMA pgbouncer;
+CREATE SCHEMA IF NOT EXISTS pgbouncer;
 
 -- Create the show APIs
 
@@ -310,8 +314,8 @@ COMMENT ON COLUMN pgbouncer.pools."cl_cancel_req" IS $$Client connections that h
 COMMENT ON COLUMN pgbouncer.pools."cl_active_cancel_req" IS $$Client connections that have forwarded query cancellations to the server and are waiting for the server response.$$;
 COMMENT ON COLUMN pgbouncer.pools."cl_waiting_cancel_req" IS $$Client connections that have not forwarded query cancellations to the server yet.$$;
 COMMENT ON COLUMN pgbouncer.pools."sv_active" IS $$Server connections that linked to client.$$;
-COMMENT ON COLUMN pgbouncer.pools."sv_active_cancel IS $$Server connections that are currently forwarding a cancel request.$$;
-COMMENT ON COLUMN pgbouncer.pools."sv_being_canceled IS $$Servers that normally could become idle but are waiting to do so until all in-flight cancel requests have completed that were sent to cancel a query on this server.$$;
+COMMENT ON COLUMN pgbouncer.pools."sv_active_cancel" IS $$Server connections that are currently forwarding a cancel request.$$;
+COMMENT ON COLUMN pgbouncer.pools."sv_being_canceled" IS $$Servers that normally could become idle but are waiting to do so until all in-flight cancel requests have completed that were sent to cancel a query on this server.$$;
 COMMENT ON COLUMN pgbouncer.pools."sv_idle" IS $$Server connections that unused and immediately usable for client queries.$$;
 COMMENT ON COLUMN pgbouncer.pools."sv_used" IS $$Server connections that have been idle more than server_check_delay, so they needs server_check_query to run on it before it can be used.$$;
 COMMENT ON COLUMN pgbouncer.pools."sv_tested" IS $$Server connections that are currently running either server_reset_query or server_check_query.$$;
