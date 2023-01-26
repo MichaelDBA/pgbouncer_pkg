@@ -291,7 +291,6 @@ CREATE OR REPLACE VIEW pgbouncer.pools AS
         "user" text,
         cl_active integer,
         cl_waiting integer,
-        cl_cancel_req integer,
         cl_active_cancel_req integer,  --v18
         cl_waiting_cancel_req integer, --v18
         sv_active integer,
@@ -310,7 +309,6 @@ COMMENT ON COLUMN pgbouncer.pools."database" IS $$Database name.$$;
 COMMENT ON COLUMN pgbouncer.pools."user" IS $$User name.$$;
 COMMENT ON COLUMN pgbouncer.pools."cl_active" IS $$Client connections that are linked to server connection and can process queries.$$;
 COMMENT ON COLUMN pgbouncer.pools."cl_waiting" IS $$Client connections have sent queries but have not yet got a server connection.$$;
-COMMENT ON COLUMN pgbouncer.pools."cl_cancel_req" IS $$Client connections that have not forwarded query cancellations to the server yet.$$;
 COMMENT ON COLUMN pgbouncer.pools."cl_active_cancel_req" IS $$Client connections that have forwarded query cancellations to the server and are waiting for the server response.$$;
 COMMENT ON COLUMN pgbouncer.pools."cl_waiting_cancel_req" IS $$Client connections that have not forwarded query cancellations to the server yet.$$;
 COMMENT ON COLUMN pgbouncer.pools."sv_active" IS $$Server connections that linked to client.$$;
@@ -386,6 +384,7 @@ CREATE OR REPLACE VIEW pgbouncer.sockets AS
         link text,
         remote_pid integer,
         tls text,
+		application_name text,
         recv_pos integer,
         pkt_pos integer,
         pkt_remain integer,
@@ -412,6 +411,7 @@ COMMENT ON COLUMN pgbouncer.sockets."ptr" IS $$Address of internal object for th
 COMMENT ON COLUMN pgbouncer.sockets."link" IS $$Address of server connection the client is paired with.$$;
 COMMENT ON COLUMN pgbouncer.sockets."remote_pid" IS $$Process ID, in case client connects over Unix socket and OS supports getting it.$$;
 COMMENT ON COLUMN pgbouncer.sockets."tls" IS $$A string with TLS connection information, or empty if not using TLS.$$;
+COMMENT ON COLUMN pgbouncer.sockets."application_name" IS $$A string containing the application_name set on the linked client connection, or empty if this is not set, or if there is no linked connection.$$;
 COMMENT ON COLUMN pgbouncer.sockets."recv_pos" IS $$See recv_pos in include/iobuf.h.$$;
 COMMENT ON COLUMN pgbouncer.sockets."pkt_pos" IS $$See parse_pos in include/iobuf.h.$$;
 COMMENT ON COLUMN pgbouncer.sockets."send_pos" IS $$See send_pos in include/sbuf.h.h.$$;
