@@ -4,13 +4,26 @@
  */
  
 -- Create server from normal pg cluster to point to pgbouncer database
-CREATE SERVER pgbouncer FOREIGN DATA WRAPPER dblink_fdw OPTIONS (host 'localhost', port '6432', dbname 'pgbouncer');
+CREATE EXTENSION IF NOT EXISTS dblink;
+DROP SERVER IF EXISTS pgbouncer CASCADE;
 
--- Create associated user mapping
-CREATE USER MAPPING FOR PUBLIC SERVER pgbouncer OPTIONS (user 'pgbouncer');
+-- even though we create the extension with dblink,  the reference in the server is dblink_fdw, which is a more Ansii-compatible version built within it.
+CREATE SERVER pgbouncer FOREIGN DATA WRAPPER dblink_fdw OPTIONS (host 'localhost', port '59998', dbname 'pgbouncer');
+
+-- NOTE: since mt user does not have a pasword and is not a superuser, he cannot query pgbouncer views.
+-- Create associated user mapping (for non-superusers including rds_superuser you must provide password
+DROP USER MAPPING IF EXISTS FOR PUBLIC SERVER pgbouncer;
+DROP USER MAPPING IF EXISTS FOR mt SERVER pgbouncer;
+
+-- use this for aws:
+-- CREATE USER MAPPING FOR PUBLIC SERVER pgbouncer OPTIONS (user 'mt', password 'mypass');
+
+-- use this for onprem
+CREATE USER MAPPING FOR PUBLIC SERVER pgbouncer OPTIONS (user 'mt');
+
 
 -- Create schema to segregate this extension
-CREATE SCHEMA pgbouncer;
+CREATE SCHEMA IF NOT EXISTS pgbouncer;
 
 -- Create the show APIs
 
@@ -489,5 +502,3 @@ CREATE VIEW pgbouncer.version AS
 COMMENT ON COLUMN pgbouncer.version.version IS $$Version number as text$$;
 
 -- did not include show commands, only show queries
-
-
