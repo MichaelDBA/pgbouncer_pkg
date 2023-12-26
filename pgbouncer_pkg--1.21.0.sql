@@ -46,7 +46,7 @@ CREATE OR REPLACE VIEW pgbouncer.active_sockets AS
         remote_pid integer,
         tls text,
         application_name text, --v18
-        prepared_statements integer,
+        prepared_statements integer, --v21
         recv_pos integer,
         pkt_pos integer,
         pkt_remain integer,
@@ -388,8 +388,8 @@ CREATE OR REPLACE VIEW pgbouncer.sockets AS
         link text,
         remote_pid integer,
         tls text,
-		    application_name text,
-		    prepared_statements integer,
+	application_name text, --v18
+	prepared_statements integer, --v21
         recv_pos integer,
         pkt_pos integer,
         pkt_remain integer,
