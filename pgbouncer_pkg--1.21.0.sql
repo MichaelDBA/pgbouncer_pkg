@@ -102,7 +102,8 @@ CREATE OR REPLACE VIEW pgbouncer.clients AS
         link text,
         remote_pid integer,
         tls text,
-        application_name text --v18
+        application_name text, --v18
+	prepared_statements integer  --v21
     );
     
     
@@ -344,7 +345,8 @@ CREATE OR REPLACE VIEW pgbouncer.servers AS
         link text,
         remote_pid integer,
         tls text,
-        application_name text  --v18
+        application_name text,  --v18
+	prepared_statements integer  --v21
     );
     
 COMMENT ON COLUMN pgbouncer.servers.type IS $$S, for server.$$;
