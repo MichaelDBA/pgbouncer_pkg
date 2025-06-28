@@ -1,7 +1,7 @@
 # pgbouncer_pkg extension
-# updated for pgbouncer 1.18.0
+# updated for pgbouncer 1.24.0
 comment = 'Wrap pgbouncer output as a dblink from pgbouncer database'
-default_version = '1.18.0'
+default_version = '1.24.0'
 relocatable = true
 requires = 'dblink'
 
