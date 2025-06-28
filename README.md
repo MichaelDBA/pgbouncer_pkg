@@ -8,7 +8,7 @@ A wrapper around the pgbouncer show commands
 **pgbouncer_pkg** just contains the query show commands, not the commands that actually do stuff, like RELOAD, etc.  You just plop these two files in the PostgreSQL extension directory for a particular PG cluster that has pgbouncer in front of it.  Then create the extension.
 
 # Assumptions
-* It is based on pgbouncer version, 1.16, 1.18, or 1.21.
+* It is based on pgbouncer version, 1.16, 1.18, 1.21, or 1.24
 * Only works with onprem PG clusters.
 * pgbouncer PG role is already created.
 
