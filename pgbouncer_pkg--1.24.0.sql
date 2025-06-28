@@ -22,6 +22,7 @@
  */
 
 CREATE EXTENSION IF NOT EXISTS dblink;
+CREATE SCHEMA IF NOT EXISTS PGBOUNCER;
 
 -- Create server from normal pg cluster to point to pgbouncer database
 DROP SERVER IF EXISTS pgbouncer CASCADE;
