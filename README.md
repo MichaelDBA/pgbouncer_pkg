@@ -14,8 +14,8 @@ A wrapper around the pgbouncer show commands
 
 # Instructions
 Download 2 files to the PostgreSQL cluster's extension directory. NOTE: the owner of these files must be **root**.
-* pgbouncer_pkg.control  (change contents to v 1.16 if using the 1.16 version).
-* pgbouncer_pkg--1.18.0.sql  (use pgbouncer_pkg--1.16.0.sql for 1.16 version).
+* pgbouncer_pkg.control  (change contents to reflect what version you downloaded, i.e., v 1.16 if using the 1.16 version).
+* pgbouncer_pkg--1.24.0.sql  (use pgbouncer_pkg--1.24.0.sql for 1.24 version).
 
 Run the **pg_config** command for the cluster to  find out the **SHAREDIR** location.  Then copy these to files to the **extension** directory under it.  It might look something like this:
 
@@ -26,7 +26,7 @@ The extension is available to see with the following SQL command after you plop 
 select * from pg_available_extensions where name = 'pgbouncer_pkg';
      name      | default_version | installed_version |                          comment
 ---------------+-----------------+-------------------+-----------------------------------------------------------
- pgbouncer_pkg | 1.18.0          | 1.18.0            | Wrap pgbouncer output as a dblink from pgbouncer database
+ pgbouncer_pkg | 1.24.0          | 1.24.0            | Wrap pgbouncer output as a dblink from pgbouncer database
 
 -- create the extension
 CREATE EXTENSION pgbouncer_pkg CASCADE;
