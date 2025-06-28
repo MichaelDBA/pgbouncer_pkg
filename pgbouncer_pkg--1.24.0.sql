@@ -1,5 +1,5 @@
 /*
- * Author: Michael Vitale <michaeldba@sqlexec.com>
+ * Author: Michael Vitale <michaeldba@sqlexec.com> 
  * Created at: 2025-06-28
  * PgBouncer 24 
  * new fields:
