@@ -2,10 +2,10 @@
 A wrapper around the pgbouncer show commands
 
 # History
-**pgbouncer_pkg** is an sql extension based on an extension from David Fetter, **pgbouncer_wrapper**, which was also based on an article ("Retrieving PgBouncer Statistics via dblink") by Peter Eisentraut.  It just simplifies the setup by just plopping 2 files in a cluster's extension directory.
+**pgbouncer_pkg** is an sql extension based on an extension from David Fetter, **pgbouncer_wrapper**, which was also based on an article ("Retrieving PgBouncer Statistics via dblink") by Peter Eisentraut.  The latest version handles PGBouncer version 1.24, although you could download older versions instead.
 
 # Overview
-**pgbouncer_pkg** just contains the query show commands, not the commands that actually do stuff, like RELOAD, etc.  You just plop these two files in the PostgreSQL extension directory for a particular PG cluster that has pgbouncer in front of it.  Then create the extension.
+**pgbouncer_pkg** converts the PGBouncer SHOW commands into PG views on the PG server.  It only contains query views, not anything that would actually update PGBouncer, like RELOAD, etc.  For instance, "select * from pgbouncer.pools;".  The neat thing about this functionality is that you can now join these PGBouncer views with the pg_stat_activity table to actually see what SQL statement a PGBouncer connection transaction is running.
 
 # Assumptions
 * It is based on pgbouncer version, 1.16, 1.18, 1.21, or 1.24
@@ -13,23 +13,21 @@ A wrapper around the pgbouncer show commands
 * pgbouncer PG role is already created.
 
 # Instructions
-Download 2 files to the PostgreSQL cluster's extension directory. NOTE: the owner of these files must be **root**.
-* pgbouncer_pkg.control  (change contents to reflect what version you downloaded, i.e., v 1.24 if using the 1.24 version).
-* pgbouncer_pkg--1.24.0.sql  (use pgbouncer_pkg--1.24.0.sql for 1.24 version).
-
-Run the **pg_config** command for the cluster to  find out the **SHAREDIR** location.  Then copy these to files to the **extension** directory under it.  It might look something like this:
-
-* /usr/pgsql-17/share/extension
-
-The extension is available to see with the following SQL command after you plop those 2 files in the extension directory.
+Download the zip file or the git project file.  Assuming it's the zip file and as the root user do the following:
+* wget https://github.com/MichaelDBA/pgbouncer_pkg/archive/refs/heads/main.zip
+* unzip main.zip
+* cd pgbouncer_pkg-main
+* make PG_CONFIG=/usr/pgsql-17/bin/pg_config install
+Note that I am pointing to a specific pg_config file which you have to do if you have multiple versions of PG on your machine. By default, it will install the latest version, 1.24.0.  If you want an older version, modify the **pgbouncer_pkg.control** file accordingly before running the **make install**.
+At this point, the extension should be available to that PG server.  
 ```
 select * from pg_available_extensions where name = 'pgbouncer_pkg';
      name      | default_version | installed_version |                          comment
 ---------------+-----------------+-------------------+-----------------------------------------------------------
  pgbouncer_pkg | 1.24.0          | 1.24.0            | Wrap pgbouncer output as a dblink from pgbouncer database
 
--- create the extension
-CREATE EXTENSION pgbouncer_pkg CASCADE;
+Create the extension.  Note you must specify the pgbouncer SCHEMA so that this extension does not own the schema and cannot drop it later if you drop the extension.  
+CREATE EXTENSION pgbouncer_pkg SCHEMA pgbouncer;
 ```
 
 # Examples
