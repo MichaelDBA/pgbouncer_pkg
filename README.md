@@ -2,7 +2,7 @@
 A wrapper around the pgbouncer show commands
 
 # History
-**pgbouncer_pkg** is an sql extension based on an extension from David Fetter, **pgbouncer_wrapper**, which was also based on an article ("Retrieving PgBouncer Statistics via dblink") by Peter Eisentraut.  The latest version handles PGBouncer version 1.24, although you could download older versions instead.
+**pgbouncer_pkg** is an sql extension based on an extension from David Fetter, [pgbouncer_wrapper](https://github.com/davidfetter/pgbouncer_wrapper), which was also based on an article ("Retrieving PgBouncer Statistics via dblink") by Peter Eisentraut.  The latest version handles PGBouncer version 1.24, although you could download older versions instead.
 
 # Overview
 **pgbouncer_pkg** converts the PGBouncer SHOW commands into PG views on the PG server.  It only contains query views, not anything that would actually update PGBouncer, like RELOAD, etc.  For instance, "select * from pgbouncer.pools;".  The neat thing about this functionality is that you can now join these PGBouncer views with the pg_stat_activity table to actually see what SQL statement a PGBouncer connection transaction is running.
