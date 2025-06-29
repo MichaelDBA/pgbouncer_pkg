@@ -11,6 +11,7 @@ A wrapper around the pgbouncer show commands
 * It is based on pgbouncer version, 1.16, 1.18, 1.21, or 1.24
 * Only works with onprem PG clusters.
 * pgbouncer PG role is already created.
+* the password for the pgbouncer role needs to be changed in the SQL file prior to the installation.
 
 # Instructions
 Download the zip file or the git project file.  Assuming it's the zip file and as the root user do the following:
