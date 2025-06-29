@@ -17,6 +17,7 @@ Download the zip file or the git project file.  Assuming it's the zip file and a
 * wget https://github.com/MichaelDBA/pgbouncer_pkg/archive/refs/heads/main.zip
 * unzip main.zip
 * cd pgbouncer_pkg-main
+* You need to change the password for pgbouncer (user mapping command) in the SQL file you are using.  Right now it is set to "pgpass".  Change that to what your PG user password is for the pgbouncer role.
 * make PG_CONFIG=/usr/pgsql-17/bin/pg_config install  
 Note that I am pointing to a specific pg_config file which you have to do if you have multiple versions of PG on your machine. By default, it will install the latest version, 1.24.0.  If you want an older version, modify the **pgbouncer_pkg.control** file accordingly before running the **make install**. At this point, the extension should be available to that PG server.  
 ```
