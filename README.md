@@ -1,5 +1,5 @@
 # pgbouncer_pkg
-A wrapper around the pgbouncer show commands
+A view wrapper around the pgbouncer show commands
 
 # History
 **pgbouncer_pkg** is an sql extension based on an extension from David Fetter, [pgbouncer_wrapper](https://github.com/davidfetter/pgbouncer_wrapper), which was also based on an article ([Retrieving PgBouncer Statistics via dblink](https://peter.eisentraut.org/blog/2015/03/25/retrieving-pgbouncer-statistics-via-dblink)) by Peter Eisentraut.  The latest version handles PGBouncer version 1.24, although you could download older versions instead.
