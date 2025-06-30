@@ -1,10 +1,43 @@
 /*
  * Author: Michael Vitale <michaeldba@sqlexec.com>
  * Created at: 2021-10-28
+
+  COPYRIGHT NOTICE FOLLOWS.  DO NOT REMOVE
+  Copyright (c) 2021-2025 SQLEXEC LLC
+  
+  MIT License:
+  
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+  
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+
+ * Do not create the pgbouncer schema.  It must exist before creating this package.
+ * We do not want to control the creating or dropping of this schema.
+ * It is expected that this extension is created by associating it with the pgbouncer schema.
+ * This way it won't try to drop that schema when it drops the extension, so create it like this:
+ 
+ * TO DO: 
+ *         1. Need to update comments at some point for all views
  */
  
--- Create server from normal pg cluster to point to pgbouncer database
+
 CREATE EXTENSION IF NOT EXISTS dblink;
+
+-- Create server from normal pg cluster to point to pgbouncer database
 DROP SERVER IF EXISTS pgbouncer CASCADE;
 
 -- even though we create the extension with dblink,  the reference in the server is dblink_fdw, which is a more Ansii-compatible version built within it.
@@ -20,10 +53,6 @@ DROP USER MAPPING IF EXISTS FOR mt SERVER pgbouncer;
 
 -- use this for onprem
 CREATE USER MAPPING FOR PUBLIC SERVER pgbouncer OPTIONS (user 'mt');
-
-
--- Create schema to segregate this extension
-CREATE SCHEMA IF NOT EXISTS pgbouncer;
 
 -- Create the show APIs
 
