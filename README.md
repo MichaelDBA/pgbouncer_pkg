@@ -8,12 +8,12 @@ A view wrapper around the pgbouncer show commands
 **pgbouncer_pkg** converts the PGBouncer SHOW commands into PG views on the PG server.  It only contains query views, not anything that would actually update PGBouncer, like RELOAD, etc.  For instance, "select * from pgbouncer.pools;".  The neat thing about this functionality is that you can now join these PGBouncer views with the pg_stat_activity table to actually see what SQL statement a PGBouncer connection transaction is running.
 
 # Assumptions
-* It is based on pgbouncer version, 1.16, 1.18, 1.21, or 1.24
-* Only works with onprem PG clusters.
+* It is based on pgbouncer version, 1.16, 1.18, 1.21, 1.24, 1.25, and 1.26
 * pgbouncer PG role is already created.
 * the password for the pgbouncer role needs to be changed in the SQL file prior to the installation.
 
 # Instructions
+You can run the SQL manually as shown in the SQL files for cloud-based PG installations.  Otherwise:<br/>
 Download the zip file or the git project file.  Assuming it's the zip file and as the root user do the following:
 * wget https://github.com/MichaelDBA/pgbouncer_pkg/archive/refs/heads/main.zip
 * unzip main.zip
