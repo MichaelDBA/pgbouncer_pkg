@@ -1,6 +1,6 @@
 /*
  * Author: Michael Vitale <michaeldba@sqlexec.com>
- * Created at: 2025-06-30
+ * Created at: 2026-11-10
  * Updated for PgBouncer: 1.26.0
  
   COPYRIGHT NOTICE FOLLOWS.  DO NOT REMOVE
